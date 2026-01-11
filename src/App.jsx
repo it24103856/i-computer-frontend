@@ -1,16 +1,30 @@
 
 import './App.css'
-import { ProductCard } from './componets/productCard'
+import Test from './componets/test'
+import Header from './componets/header'
+import ProductCard from './componets/productCard'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
 
-  console.log("Product ewdict")
   return (
-    <>
-      <ProductCard name="laptop"  price="rs 100000" image="https://picsum.photos/id/25/500/333"/>
-    
-    </>
+	<BrowserRouter>
+	<div className='w-full h-screen bg-red-600'>
+		<Routes path="/" >
+		<Route path="/" element={<h1> Home  </h1>} />
+		<Route path="/login" element={<h1>login</h1> }/>
+		<Route path="/register" element={<h1> Register </h1>} />
+		<Route path="/products" element={<ProductCard />} />
+		
+		
+		</Routes>
+	  
+	  <Test />
+	  
+	</div>
+	</BrowserRouter>
   )
+
 }
 
 export default App
