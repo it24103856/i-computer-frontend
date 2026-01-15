@@ -15,6 +15,8 @@ export default function LoginPage() {
         password,
       });
       console.log(res)
+      localStorage.setItem("token", res.data.token);
+      const token = res.data.token;
       if(res.data.role == "admin"){
        // window.location.href = "/admin"
         navigate("/admin")
