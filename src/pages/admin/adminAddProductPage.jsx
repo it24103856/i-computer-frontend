@@ -3,15 +3,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineProduct } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import uploadFile from "../../utils/mediaUpload";
 
 export default function AdminAddProductsPage() {
   const [productID, setProductID] = useState("");
+const [files,setFiles]= useState([]);
   const [name, setName] = useState("");
   const [altName, setAltName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [labeledPrice, setLabeledPrice] = useState("");
-  const [image, setImage] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [model, setModel] = useState("");
@@ -20,13 +21,24 @@ export default function AdminAddProductsPage() {
   const navigate = useNavigate();
 
   async function addProduct() {
+    
     const token = localStorage.getItem("token");
     if (token == null) {
       toast.error("Please login first");
       navigate("/login");
       return;
     }
-    
+    console.log(files);
+    const imagePromises = [];
+    for(let i=0;i<files.length;i++){
+      const promise= uploadFile(files[i]);
+      imagePromises.push(promise);
+    }
+    const images = await Promise.all(imagePromises).catch((err)=>{
+      console.log("Error uploading images:", err);
+      toast.error("Error uploading images. Please try again.");
+    });
+   
     if (productID == "" || name == "" || description == "" || price == "" || brand == "" || category == "" || model == "") {
       toast.error("Please fill in all required fields.");
       return;
@@ -34,7 +46,6 @@ export default function AdminAddProductsPage() {
 
     try {
       const altNameInArray = altName.split(",").map(item => item.trim());
-      const imageInArray = image.split(",").map(item => item.trim());
       
       await axios.post(
         import.meta.env.VITE_BACKEND_URL + "/products",
@@ -45,7 +56,7 @@ export default function AdminAddProductsPage() {
           description,
           price,
           labeledPrice,
-          image: imageInArray,
+          image: images,
           brand,
           category,
           model,
@@ -195,11 +206,12 @@ export default function AdminAddProductsPage() {
             <div className="transform transition-all duration-300 hover:translate-x-1">
               <label className={labelClass}>Image URL</label>
               <input
-                type="text"
-                value={image}
+                type="file"
+                multiple={true}
                 className={inputClass}
-                placeholder="https://example.com/image.jpg or multiple URLs separated by commas"
-                onChange={(e) => setImage(e.target.value)}
+                placeholder="Enter image URL"
+                
+                onChange={(e) => setFiles(e.target.files)}
               />
               <p className="text-right text-xs text-gray-500 mt-1 italic">
                 Multiple URLs separated by commas
