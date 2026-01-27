@@ -5,6 +5,7 @@ import { FaUsers } from "react-icons/fa";
 import { LuBoxes } from "react-icons/lu";
 import AdminProductsPage from "./admin/adminProductsPage";
 import AdminAddProductsPage from "./admin/adminAddProductPage";
+import AdminUpdateProductsPage from "./admin/adminUpdateProductPage";
 
 export default function AdminPage(){
     return(
@@ -28,6 +29,7 @@ Orders</Link>
                     <Route path="/" element={<div className="p-4"><h2 className="text-2xl font-bold mb-4">Orders</h2><p>Order management content goes here.</p></div>} />
                     <Route path="product" element={<AdminProductsPage />} />
                     <Route path="/add-product" element={<AdminAddProductsPage />} />
+                    <Route path="/update-product/:id" element={<AdminUpdateProductsPage />} />
                     <Route path="users" element={<div className="p-4"><h2 className="text-2xl font-bold mb-4">Users</h2><p>User management content goes here.</p></div>} />
                     <Route path="reviews" element={<div className="p-4"><h2 className="text-2xl font-bold mb-4">Reviews</h2><p>Review management content goes here.</p></div>} />
                     <Route path="*" element={<div className="p-4"><h1 className="text-2xl">Admin Dashboard</h1><p className="text-slate-600">Select an option from the sidebar to manage your content.</p></div>} />

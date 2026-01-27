@@ -10,6 +10,8 @@ import axios from "axios";
 // React hooks
 import { useEffect, useState, Fragment } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 // Toast notifications
 import toast from "react-hot-toast";
 
@@ -31,6 +33,7 @@ export default function AdminProductsPage() {
 
   // Controls disabling buttons while delete API is running
   const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
 
   // Load products once when page opens
   useEffect(() => {
@@ -263,31 +266,50 @@ export default function AdminProductsPage() {
                           </span>
                         </td>
 
-                        {/* Availability */}
-                        <td className="px-6 py-4">
-                          <span
-                            className={`inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold shadow-sm ${
-                              item.isAvailable
-                                ? "bg-gradient-to-r from-green-400 to-green-500 text-white"
-                                : "bg-gradient-to-r from-red-400 to-red-500 text-white"
-                            }`}
-                          >
-                            {item.isAvailable ? "✓ Available" : "✗ Out of Stock"}
-                          </span>
-                        </td>
+                      {/* Availability column එක මේ විදිහට update කරන්න */}
+<td className="px-6 py-4">
+  <span
+    className={`inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold shadow-sm ${
+      item.stock > 0
+        ? "bg-gradient-to-r from-green-400 to-green-500 text-white"
+        : "bg-gradient-to-r from-red-400 to-red-500 text-white"
+    }`}
+  >
+    {item.stock > 0 ? "✓ Available" : "✗ Out of Stock"}
+  </span>
+</td>
 
+                        
                         {/* Actions */}
-                        <td className="px-4 py-3 text-sm"> 
-                          <div className="inline-flex items-center gap-2 opacity-80">
-                            <button
-                              // IMPORTANT: now we only OPEN confirmation modal
-                              onClick={() => openDeleteConfirm(item)}
-                              className="w-[110px] bg-red-600 text-white justify-center items-center p-2 rounded-lg cursor-pointer hover:bg-red-500 transition-colors duration-300"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </td>
+                       <td className="px-4 py-3 text-sm"> 
+                        <div className="inline-flex items-center gap-2 opacity-80">
+                         {/* ✅ Edit Button - FIXED */}
+                           {/*  <Link
+                           to={`/admin/update-product/${item.productID}`}  // ✅ Dynamic product ID
+                           className="w-[110px] bg-blue-600 text-white flex justify-center items-center p-2 rounded-lg hover:bg-blue-500 transition-colors duration-300"
+                           state={item}
+                              >
+                             Edit
+                              </Link> */}
+                              <button
+                              onClick={()=>{
+                                navigate(`/admin/update-product/${item.productID}`,{state:item})
+                              }}
+                              className="w-[110px] bg-blue-600 text-white flex justify-center items-center p-2 rounded-lg hover:bg-blue-500 transition-colors duration-300"
+                              >
+                                Edit
+                              </button>
+
+                                  {/* ✅ Delete Button (unchanged) */}
+                                       <button
+                                      onClick={() => openDeleteConfirm(item)}
+                                    className="w-[110px] bg-red-600 text-white justify-center items-center p-2 rounded-lg cursor-pointer hover:bg-red-500 transition-colors duration-300"
+                               >
+                                   Delete
+                                    </button>
+                                      </div>
+                                  </td>
+
                       </tr>
                     ))}
                   </tbody>

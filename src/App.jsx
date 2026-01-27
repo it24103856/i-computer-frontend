@@ -1,6 +1,6 @@
 import './App.css'
-import Header from './componets/header'
-import ProductCard from './componets/productCard'
+import Header from "./components/header";
+import ProductCard from "./components/productCard";
 import HomePage from './pages/homePage'
 import AdminPage from './pages/adminPage'
 import LoginPage from './pages/loginPage'
