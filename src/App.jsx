@@ -1,6 +1,4 @@
 import './App.css'
-import Header from "./components/header";
-import ProductCard from "./components/productCard";
 import HomePage from './pages/homePage'
 import AdminPage from './pages/adminPage'
 import LoginPage from './pages/loginPage'
@@ -21,8 +19,6 @@ function App() {
           <Route path="/test" element={<TestPage />} />
         </Routes>
 
-        {/* ❌ REMOVE THIS */}
-        {/* <Test /> */}
 
       </div>
     </BrowserRouter>
