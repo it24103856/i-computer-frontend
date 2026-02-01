@@ -4,6 +4,7 @@ import { BiPlus } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Dialog, Transition } from "@headlessui/react";
+import ViewOrderInfo from "../../components/viewOrderInfo";
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -54,6 +55,7 @@ export default function AdminOrdersPage() {
                       <th className="px-6 py-4 text-left text-sm font-medium">Status</th>
                       <th className="px-6 py-4 text-left text-sm font-medium">Total (LKR)</th>
                       <th className="px-6 py-4 text-left text-sm font-medium">Items Count</th>
+                        <th className="px-6 py-4 text-left text-sm font-medium">Actions</th>
                     </tr>
                   </thead>
 
@@ -81,6 +83,8 @@ export default function AdminOrdersPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                           {item.items?.length || 0}
                         </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                          <ViewOrderInfo order={item} />                        </td>
                       </tr>
                     ))}
                   </tbody>
