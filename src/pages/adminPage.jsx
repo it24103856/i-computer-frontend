@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { MdOutlineRateReview } from "react-icons/md";
 import { MdOutlineListAlt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
@@ -7,10 +7,56 @@ import AdminProductsPage from "./admin/adminProductsPage";
 import AdminAddProductsPage from "./admin/adminAddProductPage";
 import AdminUpdateProductsPage from "./admin/adminUpdateProductPage";
 import AdminOrdersPage from "./admin/adminOrderPage";
+import { useState, useEffect} from "react";
+import axios from "axios";
+import Loader from "../components/loader";
 
 export default function AdminPage(){
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        
+        // Shield: No token → redirect to login
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
+        // Fetch user details from backend
+        axios.get(import.meta.env.VITE_BACKEND_URL + "/users/", {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then((response) => {
+            // Shield: Check if user is admin
+            if (response.data.role === "admin") {
+                setUser(response.data);
+                setIsLoading(false);
+            } else {
+                // NOT an admin → redirect to home
+                navigate("/");
+            }
+        })
+        .catch((err) => {
+            console.error("Auth error:", err);
+            // Invalid token or error → redirect to login
+            localStorage.removeItem("token");
+            navigate("/login");
+        });
+    }, [navigate]);
+
+    // Show loader while checking authentication
+    if (isLoading) {
+        return <Loader />;
+    }
+
+    // Only render admin UI if authenticated and authorized
     return(
         <div className="w-full h-full flex">
+            
+            <>
             <div className="w-[300px]  bg-green-950 h-full">
             <div className="w-full h-[100PX] flex items-center text-primary  ">
                 <img src="/logo.png" alt="logo" className="h-full "/>
@@ -38,6 +84,7 @@ Orders</Link>
                     
                 </Routes>
             </div>
+            </>
 
         </div>
     )

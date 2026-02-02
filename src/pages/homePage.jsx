@@ -4,6 +4,7 @@ import ProductPage from "./productPage"
 import ProductOverview from "./productOverview"
 import Cartpage from "./cart"
 import CheckOutPage from "./checkOut"
+import UserData from "../components/userData"
 
 export default function HomePage(){
     
@@ -20,6 +21,7 @@ export default function HomePage(){
                     <Route path="/contact" element={<h1>Contact Page</h1>} />
                     <Route path="/cart" element={<Cartpage/>} />
                         <Route path="/checkout" element={<CheckOutPage/>} />
+                    <Route path="/profile" element={<UserData />} />
                     <Route path="/*" element={<h1>404 Page</h1>} />
                 </Routes>
                

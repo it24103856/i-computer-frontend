@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-// Local Storage එකෙන් දැනට තියෙන Cart එක ලබා ගැනීම
+// Get the current cart from Local Storage
 export function getCart() {
     const cartString = localStorage.getItem("cart");
     if (cartString == null) {
@@ -11,45 +11,45 @@ export function getCart() {
     }
 }
 
-// භාණ්ඩයක් Cart එකට එකතු කිරීම හෝ ප්‍රමාණය වෙනස් කිරීම
+// Add a product to the cart or update its quantity
 export function addToCart(product, quantity) {
     const cart = getCart();
     
-    // භාණ්ඩය දැනටමත් තිබේදැයි පරීක්ෂා කිරීම (ID එක හරහා)
-    const index = cart.findIndex(
-        (item) => {
-             return item.productID ==  product.productID
-            }
-        
-    );
+    // Check if the product already exists in the cart using its ID
+    const index = cart.findIndex((item) => item.productID == product.productID);
 
     if (index === -1) {
-        // අලුත් භාණ්ඩයක් නම් push කරනවා
+        // If it's a new product, push it to the cart array
         cart.push({
             productID: product.productID,
             name: product.name,
             price: product.price,
             quantity: quantity,
             image: product.image[0]
-        })
+        });
         toast.success(`${product.name} added to cart`);
       
     } else {
-        // දැනටමත් තිබේ නම් ප්‍රමාණය (quantity) යාවත්කාලීන කරනවා
+        // If product exists, update the quantity
         const newQty = cart[index].quantity + quantity;
+        
         if (newQty <= 0) {
+            // Remove item if quantity becomes zero or less
             cart.splice(index, 1);
         } else {
             cart[index].quantity = newQty;
-            toast.success(`updated ${product.name} quantity to ${newQty}`);
+            toast.success(`Updated ${product.name} quantity to ${newQty}`);
         }
     }
-    const cartString = JSON.stringify(cart);
-    // වෙනස්කම් සේව් කිරීම
+
+    // Save the changes to Local Storage
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Notify other components (like Header) that the cart has changed
+    window.dispatchEvent(new Event("cartUpdate"));
 }
 
-// භාණ්ඩයක් Cart එකින් ඉවත් කිරීම
+// Remove a specific product from the cart
 export function removeFromCart(productID) {
     const cart = getCart();
     const index = cart.findIndex((item) => item.productID == productID);
@@ -59,20 +59,25 @@ export function removeFromCart(productID) {
         cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
         toast.success(`${productName} removed from cart`);
+
+        // Notify Header to update the count
+        window.dispatchEvent(new Event("cartUpdate"));
     }
 }
 
+// Clear the entire cart
 export function emptyCart() {
     localStorage.setItem("cart", "[]");
+    window.dispatchEvent(new Event("cartUpdate"));
 }
 
+// Calculate the total price of all items in the cart
 export function getCartTotal() {
     let total = 0;
     const cart = getCart();
 
-
     cart.forEach((item) => {
         total += item.price * item.quantity;
-    })
+    });
     return total;
 }
