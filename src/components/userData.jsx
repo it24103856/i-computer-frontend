@@ -41,6 +41,7 @@ export default function UserData() {
                     {/* පින්තූරය */}
                     <img 
                         src={user.image || '/default.png'} 
+                        referrerPolicy='no-referrer'
                         className='w-[50px] h-[50px] rounded-full object-cover'
                         alt="user"
                     />

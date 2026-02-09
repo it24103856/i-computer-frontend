@@ -10,6 +10,7 @@ import AdminOrdersPage from "./admin/adminOrderPage";
 import { useState, useEffect} from "react";
 import axios from "axios";
 import Loader from "../components/loader";
+import AdminUserPage from "./admin/admiinUsersPage";
 
 export default function AdminPage(){
     const [user, setUser] = useState(null);
@@ -78,8 +79,8 @@ Orders</Link>
                     <Route path="/add-product" element={<AdminAddProductsPage />} />
                     <Route path="/update-product/:id" element={<AdminUpdateProductsPage />} />
                     <Route path="/" element={<AdminProductsPage />} />
-                    <Route path="users" element={<div className="p-4"><h2 className="text-2xl font-bold mb-4">Users</h2><p>User management content goes here.</p></div>} />
-                    <Route path="reviews" element={<div className="p-4"><h2 className="text-2xl font-bold mb-4">Reviews</h2><p>Review management content goes here.</p></div>} />
+                    <Route path="/users" element={<AdminUserPage />} />
+                    <Route path="/reviews" element={<div className="p-4"><h2 className="text-2xl font-bold mb-4">Reviews</h2><p>Review management content goes here.</p></div>} />
                     <Route path="*" element={<div className="p-4"><h1 className="text-2xl">Admin Dashboard</h1><p className="text-slate-600">Select an option from the sidebar to manage your content.</p></div>} />
                     
                 </Routes>

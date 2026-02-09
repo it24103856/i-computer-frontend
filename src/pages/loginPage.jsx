@@ -104,7 +104,7 @@ export default function LoginPage() {
 
         <p className="text-white not-italic w-full mb-[20px] mt-2">
           Forget Password?
-          <Link to="/froget-Password" line="forget-password" className="text-yellow-400 hover:underline italic">
+          <Link to="/froget-Password" className="text-yellow-400 hover:underline italic">
             {" "}Click Here
           </Link>
         </p>

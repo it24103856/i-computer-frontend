@@ -21,7 +21,7 @@ export default function uploadFile(file) {
       .then(() => {
         const { data } = supabase.storage
           .from("images")
-          .getPublicUrl(fileName); // [web:51][web:129]
+          .getPublicUrl(fileName);
         resolve(data.publicUrl);
       })
       .catch((error) => {

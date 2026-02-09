@@ -3,11 +3,10 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Modal from "react-modal";
 
-export default function ViewOrderInfo(props) {
+export default function ViewOrderInfoCustomer(props) {
     const order = props.order;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [notes, setNotes] = useState(order.notes);
-    const [status, setStatus] = useState(order.status);
+  
 
     if (!order) return null;
 
@@ -134,36 +133,7 @@ export default function ViewOrderInfo(props) {
                                             <span className="w-1.5 h-1.5 rounded-full bg-current mr-2" />
                                             {order.status || "pending"}
                                         </span>
-                                        <select
-                                            value={status}
-                                            onChange={(e) => setStatus(e.target.value)}
-                                            className="ml-4 px-2 py-1 border border-secondary/20 rounded-lg text-sm text-secondary outline-none"
-                                        >
-                                            <option
-                                                value="pending"
-                                                className="bg-transparent border-1 border-accent rounded-full"
-                                            >
-                                                Pending
-                                            </option>
-                                            <option
-                                                value="processing"
-                                                className="bg-transparent border-1 border-accent rounded-full"
-                                            >
-                                                Processing
-                                            </option>
-                                            <option
-                                                value="completed"
-                                                className="bg-transparent border-1 border-accent rounded-full"
-                                            >
-                                                Completed
-                                            </option>
-                                            <option
-                                                value="cancelled"
-                                                className="bg-transparent border-1 border-accent rounded-full"
-                                            >
-                                                Cancelled
-                                            </option>
-                                        </select>
+                                        
                                     </div>
                                 </div>
                                 <div>
@@ -203,17 +173,7 @@ export default function ViewOrderInfo(props) {
                             <p className="text-xs font-semibold tracking-wide text-secondary/60 uppercase mb-1">
                                 Additional Notes
                             </p>
-                            <textarea
-                                className="text-sm text-secondary whitespace-pre-line w-full outline-0"
-                                value={notes}
-                                onChange={(e) => {
-                                    if (e.target.value == "") {
-                                        setNotes(null);
-                                    } else {
-                                        setNotes(e.target.value);
-                                    }
-                                }}
-                            ></textarea>
+                           
                         </div>
 
                         {/* Items */}
@@ -294,36 +254,7 @@ export default function ViewOrderInfo(props) {
                     </div>
 
                     {/* Footer */}
-                    <div className="px-6 py-4 border-t border-secondary/10 flex justify-end gap-2">
-                        {(order.notes != notes || order.status != status) && (
-                            <button
-                                onClick={() => {
-                                    const token = localStorage.getItem("token");
-                                    axios.put(
-                                        import.meta.env.VITE_BACKEND_URL +
-                                            `/orders/${order.orderId}`,
-                                        {
-                                            status: status,
-                                            notes: notes,
-                                        },
-                                        {
-                                            headers: {
-                                                Authorization: `Bearer ${token}`,
-                                            },
-                                        }
-                                    ).then(() => {
-                                        toast.success("Order updated successfully.");
-                                        window.location.reload();
-                                        setIsModalOpen(false);
-                                    }).catch(() => {
-                                        toast.error("Failed to update order. Please try again.");
-                                    });
-                                }}
-                                className="px-4 py-2 rounded-lg bg-secondary text-white text-sm font-medium hover:bg-secondary/90 transition"
-                            >
-                                Save Changes
-                            </button>
-                        )}
+                    <div className="flex items-center justify-end gap-4 border-t border-secondary/10 px-6 py-4">
 
                         <button
                             onClick={() => setIsModalOpen(false)}

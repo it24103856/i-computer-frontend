@@ -86,6 +86,10 @@ export default function ProductOverview() {
                                 {product.category}
                              </span>
                         </div>
+                        {/* alt name*/  }
+                        <p className="text-gray-500 text-sm mt-2">
+                            {product.altName}
+                        </p>
 
                         {/* Description */}
                         <p className="text-gray-600 text-lg mt-6 leading-relaxed max-w-lg">

@@ -8,6 +8,7 @@ import TestPage from './pages/testPage'
 import AboutPage from './pages/AboutPage';
 import RegisterPage from './pages/registerPage';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
+import ForgetPasswordPage from './pages/forgetPaswordPage';
 
 //601712598116-ckm9o17glc4rkas75394cfdcp74glbig.apps.googleusercontent.com
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/admin/*" element={<AdminPage />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/froget-password" element={<ForgetPasswordPage />} />
 
           
         </Routes>
